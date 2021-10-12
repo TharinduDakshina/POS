@@ -22,7 +22,9 @@ import view.tdm.ItemTM;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -78,7 +80,7 @@ public class ManageItemsFormController {
             ItemDAOImpl itemDAO = new ItemDAOImpl();
             ArrayList<ItemDTO> allItems = itemDAO.getAllItems();
             for (ItemDTO item : allItems) {
-                tblItems.getItems().add(new ItemTM(item.getCode(),item.getDescription(), item.getUnitPrice(), item.getQtyOnHand()));
+                tblItems.getItems().add(new ItemTM(item.getCode(), item.getDescription(), item.getUnitPrice(), item.getQtyOnHand()));
             }
 
         } catch (SQLException e) {
@@ -179,7 +181,7 @@ public class ManageItemsFormController {
                 }
                 //Save Item
                 ItemDAOImpl itemDAO = new ItemDAOImpl();
-                ItemDTO dto= new ItemDTO(code,description,unitPrice,qtyOnHand);
+                ItemDTO dto = new ItemDTO(code, description, unitPrice, qtyOnHand);
                 itemDAO.saveItem(dto);
 
                 tblItems.getItems().add(new ItemTM(code, description, unitPrice, qtyOnHand));
@@ -198,7 +200,7 @@ public class ManageItemsFormController {
                 /*Update Item*/
 
                 ItemDAOImpl itemDAO = new ItemDAOImpl();
-                ItemDTO dto= new ItemDTO(code,description,unitPrice,qtyOnHand);
+                ItemDTO dto = new ItemDTO(code, description, unitPrice, qtyOnHand);
                 itemDAO.updateItem(dto);
 
                 ItemTM selectedItem = tblItems.getSelectionModel().getSelectedItem();
@@ -218,10 +220,8 @@ public class ManageItemsFormController {
 
 
     private boolean existItem(String code) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getDbConnection().getConnection();
-        PreparedStatement pstm = connection.prepareStatement("SELECT code FROM Item WHERE code=?");
-        pstm.setString(1, code);
-        return pstm.executeQuery().next();
+        ItemDAOImpl itemDAO = new ItemDAOImpl();
+        return itemDAO.ifItemExist(code);
     }
 
 
