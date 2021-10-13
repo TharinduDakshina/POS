@@ -23,13 +23,11 @@ public class CrudUtil {
     }
 
     public boolean executeUpdate(String sql, Object... args) throws SQLException, ClassNotFoundException {
-        PreparedStatement pstm = getPreparedStatement(sql, args);
-        return pstm.executeUpdate()>0;
+        return getPreparedStatement(sql, args).executeUpdate() > 0;
     }
 
     public ResultSet executeQuery(String sql, Object... args) throws SQLException, ClassNotFoundException {
-        PreparedStatement pstm = getPreparedStatement(sql, args);
-        return pstm.executeQuery();
+        return getPreparedStatement(sql, args).executeQuery();
     }
 
 }
