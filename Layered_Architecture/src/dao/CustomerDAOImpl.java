@@ -16,9 +16,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     @Override
     public ArrayList<CustomerDTO> getAllCustomers() throws SQLException, ClassNotFoundException {
         ArrayList<CustomerDTO> allCustomers = new ArrayList();
-        Connection connection = DBConnection.getDbConnection().getConnection();
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery("SELECT * FROM Customer");
+        ResultSet rst = CrudUtil.executeQuery("SELECT * FROM Customer");
         while (rst.next()) {
             allCustomers.add(new CustomerDTO(rst.getString("id"), rst.getString("name"), rst.getString("address")));
         }
@@ -28,23 +26,13 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public boolean addCustomer(CustomerDTO dto) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getDbConnection().getConnection();
-        PreparedStatement pstm = connection.prepareStatement("INSERT INTO Customer (id,name, address) VALUES (?,?,?)");
-        pstm.setString(1, dto.getId());
-        pstm.setString(2, dto.getName());
-        pstm.setString(3, dto.getAddress());
-        return pstm.executeUpdate() > 0;
+       return CrudUtil.executeUpdate("INSERT INTO Customer (id,name, address) VALUES (?,?,?)",dto.getId(),dto.getName(),dto.getAddress());
     }
 
 
     @Override
     public boolean updateCustomer(CustomerDTO dto) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getDbConnection().getConnection();
-        PreparedStatement pstm = connection.prepareStatement("UPDATE Customer SET name=?, address=? WHERE id=?");
-        pstm.setString(1, dto.getName());
-        pstm.setString(2, dto.getAddress());
-        pstm.setString(3, dto.getId());
-        return pstm.executeUpdate() > 0;
+       return CrudUtil.executeUpdate("UPDATE Customer SET name=?, address=? WHERE id=?",dto.getName(),dto.getAddress(),dto.getId());
     }
 
     @Override
