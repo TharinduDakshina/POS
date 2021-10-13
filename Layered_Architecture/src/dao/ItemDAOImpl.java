@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * @author : Sanu Vithanage
  * @since : 0.1.0
  **/
-public class ItemDAOImpl implements ItemDAO{
+public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public ArrayList<ItemDTO> getAllItems() throws SQLException, ClassNotFoundException {
