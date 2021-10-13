@@ -217,9 +217,7 @@ public class ManageCustomersFormController {
 
     private String generateNewId() {
         try {
-
             return customerDAO.generateNewID();
-
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Failed to generate a new id " + e.getMessage()).show();
         } catch (ClassNotFoundException e) {
