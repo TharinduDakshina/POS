@@ -15,9 +15,7 @@ public class ItemDAOImpl implements ItemDAO {
     @Override
     public ArrayList<ItemDTO> getAllItems() throws SQLException, ClassNotFoundException {
         ArrayList<ItemDTO> allItems = new ArrayList<>();
-        Connection connection = DBConnection.getDbConnection().getConnection();
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery("SELECT * FROM Item");
+        ResultSet rst = CrudUtil.executeQuery("SELECT * FROM Item");
         while (rst.next()) {
             allItems.add(new ItemDTO(rst.getString("code"), rst.getString("description"), rst.getBigDecimal("unitPrice"), rst.getInt("qtyOnHand")));
         }
@@ -26,10 +24,7 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public boolean deleteItem(String code) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getDbConnection().getConnection();
-        PreparedStatement pstm = connection.prepareStatement("DELETE FROM Item WHERE code=?");
-        pstm.setString(1, code);
-        return pstm.executeUpdate() > 0;
+        return CrudUtil.executeUpdate("DELETE FROM Item WHERE code=?",code);
     }
 
     @Override
