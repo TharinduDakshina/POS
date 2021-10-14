@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * @author : Sanu Vithanage
  * @since : 0.1.0
  **/
-public class OrderDAOImpl implements CrudDAO {
+public class OrderDetailsDAOImpl implements CrudDAO{
 
     @Override
     public boolean add(Object ob) {
