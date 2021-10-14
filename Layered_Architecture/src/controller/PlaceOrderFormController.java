@@ -3,9 +3,7 @@ package controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import dao.CrudDAO;
-import dao.CustomerDAOImpl;
-import dao.ItemDAOImpl;
+import dao.*;
 import db.DBConnection;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -21,6 +19,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.CustomerDTO;
 import model.ItemDTO;
+import model.OrderDTO;
 import model.OrderDetailDTO;
 import view.tdm.OrderDetailTM;
 
@@ -57,8 +56,10 @@ public class PlaceOrderFormController {
     public Label lblTotal;
     private String orderId;
 
-    private CrudDAO<CustomerDTO,String> customerDAO = new CustomerDAOImpl();
-    private CrudDAO<ItemDTO,String> itemDAO = new ItemDAOImpl();
+    private final CrudDAO<CustomerDTO, String> customerDAO = new CustomerDAOImpl();
+    private final CrudDAO<ItemDTO, String> itemDAO = new ItemDAOImpl();
+    private final CrudDAO<OrderDTO, String> orderDAO = new OrderDAOImpl();
+    private final CrudDAO<OrderDetailDTO, String> orderDetailsDAO = new OrderDetailsDAOImpl();
 
     public void initialize() throws SQLException, ClassNotFoundException {
 
@@ -192,11 +193,7 @@ public class PlaceOrderFormController {
     private boolean existItem(String code) throws SQLException, ClassNotFoundException {
 
         ItemDTO item = itemDAO.search(code);
-        if (item==null) {
-            return false;
-        }else{
-            return true;
-        }
+        return item != null;
 
     }
 
@@ -305,7 +302,7 @@ public class PlaceOrderFormController {
         for (OrderDetailTM detail : tblOrderDetails.getItems()) {
             total = total.add(detail.getTotal());
         }
-        lblTotal.setText("Total: " +total);
+        lblTotal.setText("Total: " + total);
     }
 
     private void enableOrDisablePlaceOrderButton() {
@@ -347,26 +344,25 @@ public class PlaceOrderFormController {
             }
 
             connection.setAutoCommit(false);
-            stm = connection.prepareStatement("INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)");
-            stm.setString(1, orderId);
-            stm.setDate(2, Date.valueOf(orderDate));
-            stm.setString(3, customerId);
+            /*Add Order*/
 
-            if (stm.executeUpdate() != 1) {
+
+            OrderDTO orderDTO = new OrderDTO(orderId, orderDate, customerId);
+            boolean add = orderDAO.add(orderDTO);
+
+            if (!add) {
                 connection.rollback();
                 connection.setAutoCommit(true);
                 return false;
             }
 
-            stm = connection.prepareStatement("INSERT INTO OrderDetails (oid, itemCode, unitPrice, qty) VALUES (?,?,?,?)");
 
             for (OrderDetailDTO detail : orderDetails) {
-                stm.setString(1, orderId);
-                stm.setString(2, detail.getItemCode());
-                stm.setBigDecimal(3, detail.getUnitPrice());
-                stm.setInt(4, detail.getQty());
 
-                if (stm.executeUpdate() != 1) {
+                OrderDetailDTO orderDetailDTO = new OrderDetailDTO(orderId, detail.getItemCode(), detail.getQty(), detail.getUnitPrice());
+                boolean add1 = orderDetailsDAO.add(orderDetailDTO);
+
+                if (!add1) {
                     connection.rollback();
                     connection.setAutoCommit(true);
                     return false;
@@ -403,6 +399,7 @@ public class PlaceOrderFormController {
     public ItemDTO findItem(String code) {
         try {
             return itemDAO.search(code);
+
         } catch (SQLException e) {
             throw new RuntimeException("Failed to find the Item " + code, e);
         } catch (ClassNotFoundException e) {

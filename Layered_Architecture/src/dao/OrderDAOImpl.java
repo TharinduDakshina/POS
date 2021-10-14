@@ -9,12 +9,12 @@ import java.util.ArrayList;
  * @author : Sanu Vithanage
  * @since : 0.1.0
  **/
-public class OrderDAOImpl implements CrudDAO<OrderDTO,String> {
+public class OrderDAOImpl implements CrudDAO<OrderDTO, String> {
 
 
     @Override
-    public boolean add(OrderDTO orderDTO) throws SQLException, ClassNotFoundException {
-        return false;
+    public boolean add(OrderDTO dto) throws SQLException, ClassNotFoundException {
+        return CrudUtil.executeUpdate("INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)", dto.getOrderId(), dto.getOrderDate(), dto.getCustomerId());
     }
 
     @Override

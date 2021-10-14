@@ -12,8 +12,8 @@ import java.util.ArrayList;
 public class OrderDetailsDAOImpl implements CrudDAO<OrderDetailDTO, String> {
 
     @Override
-    public boolean add(OrderDetailDTO orderDetailDTO) throws SQLException, ClassNotFoundException {
-        return false;
+    public boolean add(OrderDetailDTO dto) throws SQLException, ClassNotFoundException {
+       return CrudUtil.executeUpdate("INSERT INTO OrderDetails (oid, itemCode, unitPrice, qty) VALUES (?,?,?,?)",dto.getOid(),dto.getItemCode(),dto.getUnitPrice(),dto.getQty());
     }
 
     @Override
