@@ -44,21 +44,18 @@ public class ItemDAOImpl implements CrudDAO<ItemDTO, String> {
     }
 
 
-//
-//    @Override
-//    public boolean ifItemExist(String code) throws SQLException, ClassNotFoundException {
-//        return CrudUtil.executeQuery("SELECT code FROM Item WHERE code=?", code).next();
-//    }
-//
-//    @Override
-//    public String generateNewID() throws SQLException, ClassNotFoundException {
-//        ResultSet rst = CrudUtil.executeQuery("SELECT code FROM Item ORDER BY code DESC LIMIT 1;");
-//        if (rst.next()) {
-//            String id = rst.getString("code");
-//            int newItemId = Integer.parseInt(id.replace("I", "")) + 1;
-//            return String.format("I%03d", newItemId);
-//        } else {
-//            return "I001";
-//        }
-//    }
+    public boolean ifItemExist(String code) throws SQLException, ClassNotFoundException {
+        return CrudUtil.executeQuery("SELECT code FROM Item WHERE code=?", code).next();
+    }
+
+    public String generateNewID() throws SQLException, ClassNotFoundException {
+        ResultSet rst = CrudUtil.executeQuery("SELECT code FROM Item ORDER BY code DESC LIMIT 1;");
+        if (rst.next()) {
+            String id = rst.getString("code");
+            int newItemId = Integer.parseInt(id.replace("I", "")) + 1;
+            return String.format("I%03d", newItemId);
+        } else {
+            return "I001";
+        }
+    }
 }

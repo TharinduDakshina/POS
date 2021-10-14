@@ -46,22 +46,19 @@ public class CustomerDAOImpl implements CrudDAO<CustomerDTO, String> {
     }
 
 
-//    @Override
-//    public boolean ifCustomerExist(String id) throws SQLException, ClassNotFoundException {
-//        return CrudUtil.executeQuery("SELECT id FROM Customer WHERE id=?", id).next();
-//    }
-//
+    public boolean ifCustomerExist(String id) throws SQLException, ClassNotFoundException {
+        return CrudUtil.executeQuery("SELECT id FROM Customer WHERE id=?", id).next();
+    }
 
-//
-//    @Override
-//    public String generateNewID() throws SQLException, ClassNotFoundException {
-//        ResultSet rst = CrudUtil.executeQuery("SELECT id FROM Customer ORDER BY id DESC LIMIT 1;");
-//        if (rst.next()) {
-//            String id = rst.getString("id");
-//            int newCustomerId = Integer.parseInt(id.replace("C", "")) + 1;
-//            return String.format("C%03d", newCustomerId);
-//        } else {
-//            return "C001";
-//        }
-//    }
+
+    public String generateNewID() throws SQLException, ClassNotFoundException {
+        ResultSet rst = CrudUtil.executeQuery("SELECT id FROM Customer ORDER BY id DESC LIMIT 1;");
+        if (rst.next()) {
+            String id = rst.getString("id");
+            int newCustomerId = Integer.parseInt(id.replace("C", "")) + 1;
+            return String.format("C%03d", newCustomerId);
+        } else {
+            return "C001";
+        }
+    }
 }

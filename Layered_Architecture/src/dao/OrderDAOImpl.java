@@ -2,7 +2,9 @@ package dao;
 
 import model.OrderDTO;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -28,8 +30,10 @@ public class OrderDAOImpl implements CrudDAO<OrderDTO, String> {
     }
 
     @Override
-    public OrderDTO search(String s) throws SQLException, ClassNotFoundException {
-        return null;
+    public OrderDTO search(String oid) throws SQLException, ClassNotFoundException {
+        ResultSet rst = CrudUtil.executeQuery("SELECT oid FROM `Orders` WHERE oid=?", oid);
+        rst.next();
+        return new OrderDTO(rst.getString("oid"), LocalDate.parse(rst.getString("date")), rst.getString("customerID"));
     }
 
     @Override

@@ -18,4 +18,5 @@ public interface CrudDAO<T, ID> {
     T search(ID id) throws SQLException, ClassNotFoundException;
 
     ArrayList<T> getAll() throws SQLException, ClassNotFoundException;
+
 }
