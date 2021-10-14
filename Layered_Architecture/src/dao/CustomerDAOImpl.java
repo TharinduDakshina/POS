@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @since : 0.1.0
  **/
 
-public class CustomerDAOImpl implements CrudDAO<CustomerDTO, String> {
+public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public boolean add(CustomerDTO dto) throws SQLException, ClassNotFoundException {
@@ -46,11 +46,13 @@ public class CustomerDAOImpl implements CrudDAO<CustomerDTO, String> {
     }
 
 
+    @Override
     public boolean ifCustomerExist(String id) throws SQLException, ClassNotFoundException {
         return CrudUtil.executeQuery("SELECT id FROM Customer WHERE id=?", id).next();
     }
 
 
+    @Override
     public String generateNewID() throws SQLException, ClassNotFoundException {
         ResultSet rst = CrudUtil.executeQuery("SELECT id FROM Customer ORDER BY id DESC LIMIT 1;");
         if (rst.next()) {
