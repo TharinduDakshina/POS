@@ -10,8 +10,34 @@ import java.util.ArrayList;
  * @since : 0.1.0
  **/
 
-public class CustomerDAOImpl implements CrudDAO {
+public class CustomerDAOImpl implements CrudDAO<CustomerDTO,String> {
+
     @Override
+    public boolean add(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException {
+        return false;
+    }
+
+    @Override
+    public boolean delete(String s) throws SQLException, ClassNotFoundException {
+        return false;
+    }
+
+    @Override
+    public boolean update(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException {
+        return false;
+    }
+
+    @Override
+    public CustomerDTO search(String s) throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    @Override
+    public ArrayList<CustomerDTO> getAll() throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    /*@Override
     public boolean add(Object dto) throws SQLException, ClassNotFoundException {
         CustomerDTO d = (CustomerDTO) dto;
         return CrudUtil.executeUpdate("INSERT INTO Customer (id,name, address) VALUES (?,?,?)", d.getId(), d.getName(), d.getAddress());
@@ -36,7 +62,7 @@ public class CustomerDAOImpl implements CrudDAO {
     public ArrayList<Object> getAll()throws SQLException, ClassNotFoundException {
         return null;
     }
-
+*/
 //    @Override
 //    public ArrayList<CustomerDTO> getAllCustomers() throws SQLException, ClassNotFoundException {
 //        ArrayList<CustomerDTO> allCustomers = new ArrayList();

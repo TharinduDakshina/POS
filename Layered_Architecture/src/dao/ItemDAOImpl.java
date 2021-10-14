@@ -10,31 +10,32 @@ import java.util.ArrayList;
  * @author : Sanu Vithanage
  * @since : 0.1.0
  **/
-public class ItemDAOImpl implements CrudDAO {
+public class ItemDAOImpl implements CrudDAO<ItemDTO,String> {
     @Override
-    public boolean add(Object ob) throws SQLException, ClassNotFoundException{
+    public boolean add(ItemDTO dto) throws SQLException, ClassNotFoundException {
         return false;
     }
 
     @Override
-    public boolean delete(Object ob)throws SQLException, ClassNotFoundException {
+    public boolean delete(String s) throws SQLException, ClassNotFoundException {
         return false;
     }
 
     @Override
-    public boolean update(Object ob) throws SQLException, ClassNotFoundException{
+    public boolean update(ItemDTO dto) throws SQLException, ClassNotFoundException {
         return false;
     }
 
     @Override
-    public Object search(Object ob)throws SQLException, ClassNotFoundException {
+    public ItemDTO search(String s) throws SQLException, ClassNotFoundException {
         return null;
     }
 
     @Override
-    public ArrayList<Object> getAll()throws SQLException, ClassNotFoundException {
+    public ArrayList<ItemDTO> getAll() throws SQLException, ClassNotFoundException {
         return null;
     }
+
 
 //    @Override
 //    public ArrayList<ItemDTO> getAllItems() throws SQLException, ClassNotFoundException {
