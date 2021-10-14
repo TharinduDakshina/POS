@@ -7,10 +7,15 @@ import java.util.ArrayList;
  * @author : Sanu Vithanage
  * @since : 0.1.0
  **/
-public interface CrudDAO {
-    public boolean add(Object ob) throws SQLException, ClassNotFoundException;
-    public boolean delete(Object ob)throws SQLException, ClassNotFoundException;
-    public boolean update(Object ob)throws SQLException, ClassNotFoundException;
-    public Object search(Object ob)throws SQLException, ClassNotFoundException;
-    public ArrayList<Object> getAll()throws SQLException, ClassNotFoundException;
+public interface CrudDAO<T,ID> {
+
+    boolean add(T t) throws SQLException, ClassNotFoundException;
+
+    boolean delete(ID id) throws SQLException, ClassNotFoundException;
+
+    boolean update(T t) throws SQLException, ClassNotFoundException;
+
+     T search(ID id) throws SQLException, ClassNotFoundException;
+
+    ArrayList<T> getAll() throws SQLException, ClassNotFoundException;
 }
